@@ -87,6 +87,7 @@
   // ==========================================================================
   var menuOpen = false;
   function applyMenu() {
+    if (els.menuBtn) els.menuBtn.classList.toggle('open', menuOpen);
     if (!els.menuOverlay) return;
     els.menuOverlay.style.opacity = menuOpen ? '1' : '0';
     els.menuOverlay.style.pointerEvents = menuOpen ? 'auto' : 'none';

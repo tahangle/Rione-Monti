@@ -15,9 +15,7 @@
 <div style="font-family:'TimezoneMono',monospace;color:#E5E1D6;width:100%;overflow-x:clip;position:relative;">
 
   <!-- Scroll menu button + overlay -->
-  <button data-ref="menuBtn" data-action="toggleMenu" aria-label="Menu" style="position:fixed;top:22px;right:22px;z-index:120;width:58px;height:58px;padding:0;border:none;background:none;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .4s ease,transform .4s ease;">
-    <img src="assets/menu-icon.svg" alt="" style="width:100%;height:100%;display:block;border-radius:8px;box-shadow:0 6px 20px rgba(28,22,79,0.28);">
-  </button>
+  <button data-ref="menuBtn" data-action="toggleMenu" aria-label="Menu" class="rm-menubtn" style="opacity:0;pointer-events:none;transform:translateY(-8px);"><span></span><span></span><span></span></button>
   
 
   <!-- HERO v2 -->
@@ -354,7 +352,7 @@
       
       <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(12px,1.8vw,30px);font-family:'Rauschen',sans-serif;font-weight:400;font-size:15px;line-height:0.97;letter-spacing:0.07em;text-transform:uppercase;color:#E5E1D6;margin-bottom:clamp(14px,2.4vh,28px);"><span data-en="The">Les</span><span data-en="stories">histoires</span><span data-en="of">de</span><span data-en="our">nos</span><span data-en="clients">clients</span></div>
       <h1 class="rm-h1" style="font-family:'Rauschen',sans-serif;font-weight:500;font-size:clamp(28px,3vw,42px);line-height:0.97;letter-spacing:0.07em;color:#E5E1D6;text-transform:uppercase;text-align:center;margin:0 0 clamp(30px,5.5vh,68px);" data-en="They placed their trust in us">Ils nous ont fait confiance</h1>
-      <div style="position:relative;width:min(90%,340px);min-height:clamp(300px,44vh,430px);flex:none;overflow:hidden;">
+      <div class="rm-revwrap" style="position:relative;width:min(90%,340px);min-height:clamp(300px,44vh,430px);flex:none;overflow:hidden;">
         <div class="rm-revcard" style="position:absolute;left:0;right:0;top:0;opacity:1;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:'Rauschen',sans-serif;font-weight:400;font-size:15px;line-height:0.97;letter-spacing:0.07em;text-transform:uppercase;color:#E5E1D6;margin-bottom:clamp(16px,2.4vh,26px);">
             <span style="display:flex;align-items:center;gap:10px;">5/5 <span style="display:inline-flex;gap:5px;align-items:center;"><svg class="rm-star" width="12" height="12" viewBox="0 0 24 24" style="display:block;animation-delay:0s;"><path d="M12 0C13.2 8 16 10.8 24 12C16 13.2 13.2 16 12 24C10.8 16 8 13.2 0 12C8 10.8 10.8 8 12 0Z" fill="#E5E1D6"></path></svg><svg class="rm-star" width="12" height="12" viewBox="0 0 24 24" style="display:block;animation-delay:0.06s;"><path d="M12 0C13.2 8 16 10.8 24 12C16 13.2 13.2 16 12 24C10.8 16 8 13.2 0 12C8 10.8 10.8 8 12 0Z" fill="#E5E1D6"></path></svg><svg class="rm-star" width="12" height="12" viewBox="0 0 24 24" style="display:block;animation-delay:0.12s;"><path d="M12 0C13.2 8 16 10.8 24 12C16 13.2 13.2 16 12 24C10.8 16 8 13.2 0 12C8 10.8 10.8 8 12 0Z" fill="#E5E1D6"></path></svg><svg class="rm-star" width="12" height="12" viewBox="0 0 24 24" style="display:block;animation-delay:0.18s;"><path d="M12 0C13.2 8 16 10.8 24 12C16 13.2 13.2 16 12 24C10.8 16 8 13.2 0 12C8 10.8 10.8 8 12 0Z" fill="#E5E1D6"></path></svg><svg class="rm-star" width="12" height="12" viewBox="0 0 24 24" style="display:block;animation-delay:0.24s;"><path d="M12 0C13.2 8 16 10.8 24 12C16 13.2 13.2 16 12 24C10.8 16 8 13.2 0 12C8 10.8 10.8 8 12 0Z" fill="#E5E1D6"></path></svg></span></span>
