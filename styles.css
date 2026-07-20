@@ -140,12 +140,12 @@ html{scroll-behavior:smooth;}
   .rm-debutgrid>div:first-child,.rm-debutgrid>div:last-child{height:calc(100vw / 7 * 3)!important;}
   .rm-ck-d{display:none!important;}
   .rm-ck-m{display:grid!important;}
-  .rm-debutimg{width:min(260px,62%)!important;margin-top:clamp(22px,7vw,44px)!important;margin-bottom:clamp(18px,6vw,36px)!important;padding:clamp(6px,2.5vw,14px)!important;}
+  .rm-debutimg{width:min(260px,62%)!important;margin-top:clamp(22px,7vw,44px)!important;margin-bottom:clamp(44px,14vw,80px)!important;padding:clamp(6px,2.5vw,14px)!important;}
   .rm-debutimg img[alt="Né à Rome"]{width:clamp(52px,17vw,72px)!important;left:-14%!important;}
   .rm-debutimg img[alt="Été 2024"]{width:clamp(88px,29vw,120px)!important;}
   /* one consistent body-text column on mobile, with breathing room from the edges */
   .rm-exptext p{width:auto!important;height:auto!important;}
-  #experiences-cards>div>p,.rm-center>div:last-child,.rm-exptext p,.rm-menupanel p,.rm-philo p{max-width:min(400px,80vw)!important;margin-left:auto!important;margin-right:auto!important;text-wrap:pretty!important;}
+  #experiences-cards>div>p,.rm-center>p,.rm-center>div:last-child,.rm-exptext p,.rm-menupanel p,.rm-philo p{max-width:min(340px,74vw)!important;margin-left:auto!important;margin-right:auto!important;text-wrap:pretty!important;}
   .rm-philo{width:100%!important;right:auto!important;left:0!important;padding:44px clamp(30px,9vw,48px)!important;}
   /* footer stacks so it isn't cut off */
   footer>div:first-child{grid-template-columns:1fr 1fr!important;gap:clamp(24px,6vw,40px) clamp(18px,5vw,32px)!important;}
@@ -158,7 +158,7 @@ html{scroll-behavior:smooth;}
   .rm-bot img{height:clamp(150px,42vw,240px)!important;}
   .rm-botlabel{display:none!important;}
   .rm-explist{display:flex!important;flex-direction:column;gap:clamp(10px,1.8vh,18px);margin:clamp(26px,5vh,42px) auto 0;padding:0;list-style:none;max-width:340px;width:100%;}
-  .rm-explist li{font-family:'TimezoneMono',monospace;font-size:clamp(17px,4.8vw,21px);line-height:1.1;letter-spacing:0.02em;text-transform:none;color:#E5E1D6;text-align:center;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .7s cubic-bezier(.16,1,.3,1);}
+  .rm-explist li{font-family:'TimezoneMono',monospace;font-size:clamp(18px,5vw,20px);line-height:1.1;letter-spacing:normal;text-transform:none;color:#E5E1D6;text-align:center;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .7s cubic-bezier(.16,1,.3,1);}
   .rm-explist.rm-in li{opacity:1;transform:none;}
   .rm-explist.rm-in li:nth-child(1){transition-delay:.05s;}
   .rm-explist.rm-in li:nth-child(2){transition-delay:.15s;}
