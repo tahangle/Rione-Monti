@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Editor / tooling
+.vscode/
+.idea/
+
+# Node (only if a build/dev tool is ever added — none needed today)
+node_modules/
+
+# Recording / test output (if Playwright walkthroughs land here later)
+videos/
+test-results/
+playwright-report/
