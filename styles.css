@@ -98,6 +98,9 @@ html{scroll-behavior:smooth;}
 .rm-back{position:absolute;inset:0;transform:rotateY(180deg);}
 @keyframes rmTileOut{0%{opacity:1;transform:scale(1);}100%{opacity:0;transform:scale(1.05);}}
 .rm-checkgrid span{opacity:0;}
+.rm-ck-m{display:none;}
+.rm-cform label{min-width:0;}
+.rm-cform input,.rm-cform textarea{width:100%;min-width:0;}
 .rm-debut.rm-in .rm-checkgrid span{animation-name:rmTileIn;animation-duration:.55s;animation-timing-function:cubic-bezier(.2,.7,.2,1);animation-fill-mode:both;}
 .rm-center{opacity:0;}
 .rm-debut.rm-in .rm-center{animation:rmFadeUp 1s cubic-bezier(.16,1,.3,1) both;animation-delay:.55s;}
@@ -106,9 +109,9 @@ html{scroll-behavior:smooth;}
 @keyframes rmPlateIdle{0%,100%{transform:rotate(-2.5deg);}50%{transform:rotate(2.5deg);}}
 .rm-dish:hover{animation-play-state:paused;}
 @media (max-width:820px){
-  .rm-h0{font-size:clamp(42px,13vw,112px)!important;line-height:0.88!important;letter-spacing:0.02em!important;white-space:normal!important;overflow-wrap:normal!important;}
+  .rm-h0{font-size:clamp(28px,9.2vw,88px)!important;line-height:0.9!important;letter-spacing:0.02em!important;white-space:normal!important;overflow-wrap:break-word!important;}
   .rm-h1{font-size:clamp(40px,8.2vw,66px)!important;line-height:0.9!important;}
-  .rm-heroh1{transform:scaleX(0.9)!important;}
+  .rm-heroh1{transform:scaleX(0.9)!important;font-size:clamp(40px,13vw,96px)!important;}
   .rm-galgrid{grid-template-columns:1fr!important;grid-template-rows:1fr 1fr!important;}
   .rm-philo{width:100%!important;right:auto!important;left:0!important;padding:44px 28px!important;}
   .rm-expplates{display:grid!important;grid-template-columns:1fr 1fr!important;width:min(300px,74vw)!important;gap:clamp(14px,4vw,28px)!important;place-items:center;}
@@ -119,9 +122,18 @@ html{scroll-behavior:smooth;}
   .rm-mkeep{width:clamp(88px,26vw,150px)!important;}
   .rm-cform{grid-template-columns:1fr 1fr!important;column-gap:clamp(14px,3vw,28px)!important;}
   .rm-cintro{max-width:340px!important;}
-  .rm-debutgrid>div:first-child,.rm-debutgrid>div:last-child{height:clamp(150px,50vw,205px)!important;}
-  .rm-debutgrid .rm-checkgrid{grid-template-columns:repeat(4,1fr)!important;align-content:center!important;}
+  .rm-debutgrid>div:first-child,.rm-debutgrid>div:last-child{height:clamp(128px,36vw,175px)!important;}
+  .rm-ck-d{display:none!important;}
+  .rm-ck-m{display:grid!important;}
   .rm-debutimg{width:min(260px,62%)!important;margin-top:clamp(22px,7vw,44px)!important;margin-bottom:clamp(18px,6vw,36px)!important;padding:clamp(6px,2.5vw,14px)!important;}
+  .rm-debutimg img[alt="Né à Rome"]{width:clamp(52px,17vw,72px)!important;left:-14%!important;}
+  .rm-debutimg img[alt="Été 2024"]{width:clamp(88px,29vw,120px)!important;}
+  /* one consistent body-text column on mobile */
+  .rm-exptext p{width:auto!important;height:auto!important;}
+  #experiences-cards>div>p,.rm-center>div:last-child,.rm-exptext p,.rm-menupanel p{max-width:min(440px,86vw)!important;margin-left:auto!important;margin-right:auto!important;}
+  /* footer stacks so it isn't cut off */
+  footer>div:first-child{grid-template-columns:1fr 1fr!important;gap:clamp(24px,6vw,40px) clamp(18px,5vw,32px)!important;}
+  footer>div:last-child{flex-direction:column!important;align-items:center!important;text-align:center!important;gap:8px!important;}
   .rm-cintro{text-align:center!important;margin-left:auto!important;margin-right:auto!important;}
   .rm-menupanel{text-align:center!important;padding-top:clamp(150px,46vw,210px)!important;}
   .rm-menupanel p{margin-left:auto!important;margin-right:auto!important;}
