@@ -119,11 +119,11 @@ html{scroll-behavior:smooth;}
   .rm-mkeep{width:clamp(88px,26vw,150px)!important;}
   .rm-cform{grid-template-columns:1fr 1fr!important;column-gap:clamp(14px,3vw,28px)!important;}
   .rm-cintro{max-width:340px!important;}
-  .rm-debutgrid>div:first-child,.rm-debutgrid>div:last-child{height:clamp(104px,30vw,150px)!important;}
-  .rm-debutgrid .rm-checkgrid{grid-template-columns:repeat(8,1fr)!important;align-content:center!important;}
-  .rm-debutimg{width:min(340px,76%)!important;margin-top:clamp(14px,4vw,28px)!important;padding:clamp(6px,2.5vw,14px)!important;}
+  .rm-debutgrid>div:first-child,.rm-debutgrid>div:last-child{height:clamp(150px,50vw,205px)!important;}
+  .rm-debutgrid .rm-checkgrid{grid-template-columns:repeat(4,1fr)!important;align-content:center!important;}
+  .rm-debutimg{width:min(260px,62%)!important;margin-top:clamp(22px,7vw,44px)!important;margin-bottom:clamp(18px,6vw,36px)!important;padding:clamp(6px,2.5vw,14px)!important;}
   .rm-cintro{text-align:center!important;margin-left:auto!important;margin-right:auto!important;}
-  .rm-menupanel{text-align:center!important;}
+  .rm-menupanel{text-align:center!important;padding-top:clamp(150px,46vw,210px)!important;}
   .rm-menupanel p{margin-left:auto!important;margin-right:auto!important;}
   .rm-botrow{flex-wrap:nowrap!important;gap:clamp(4px,1.6vw,14px)!important;justify-content:center!important;min-height:0!important;align-items:flex-end!important;}
   .rm-bot{flex:0 0 auto!important;}
