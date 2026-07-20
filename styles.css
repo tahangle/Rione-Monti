@@ -98,7 +98,7 @@ html{scroll-behavior:smooth;}
 .rm-back{position:absolute;inset:0;transform:rotateY(180deg);}
 @keyframes rmTileOut{0%{opacity:1;transform:scale(1);}100%{opacity:0;transform:scale(1.05);}}
 .rm-checkgrid span{opacity:0;}
-.rm-ck-m{display:none;}
+.rm-ck-m{display:none!important;}
 .rm-cform label{min-width:0;}
 .rm-cform input,.rm-cform textarea{width:100%;min-width:0;}
 /* Scroll-reveal: elements ease in as they enter the viewport */
@@ -112,12 +112,10 @@ html{scroll-behavior:smooth;}
 .rm-totop{position:fixed;right:18px;bottom:18px;z-index:115;width:46px;height:46px;border-radius:50%;border:1.5px solid #E5E1D6;background:#9D2D21;color:#E5E1D6;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .4s ease,transform .4s ease,background .3s ease;box-shadow:0 6px 18px rgba(28,22,79,0.28);}
 .rm-totop.show{opacity:1;pointer-events:auto;transform:none;}
 .rm-totop svg{width:19px;height:19px;display:block;}
-/* Menu button — clean hamburger that morphs to an X when open */
-.rm-menubtn{position:fixed;top:20px;right:18px;z-index:130;width:46px;height:46px;border-radius:50%;border:1.5px solid #E5E1D6;background:#1C164F;cursor:pointer;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;box-shadow:0 6px 18px rgba(28,22,79,0.28);transition:opacity .4s ease,transform .4s ease,background .3s ease;}
-.rm-menubtn span{display:block;width:20px;height:2px;border-radius:2px;background:#E5E1D6;transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .2s ease;}
-.rm-menubtn.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-.rm-menubtn.open span:nth-child(2){opacity:0;}
-.rm-menubtn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+/* Menu button: original tile icon on desktop, clean hamburger on mobile */
+.rm-menubtn{position:fixed;top:22px;right:22px;z-index:130;width:58px;height:58px;padding:0;border:none;background:none;cursor:pointer;transition:opacity .4s ease,transform .4s ease;}
+.rm-menubtn img{width:100%;height:100%;display:block;border-radius:8px;box-shadow:0 6px 20px rgba(28,22,79,0.28);}
+.rm-menubtn .rm-bars{display:none;}
 @media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1!important;transform:none!important;transition:none!important;}}
 .rm-debut.rm-in .rm-checkgrid span{animation-name:rmTileIn;animation-duration:.55s;animation-timing-function:cubic-bezier(.2,.7,.2,1);animation-fill-mode:both;}
 .rm-center{opacity:0;}
@@ -188,10 +186,19 @@ html{scroll-behavior:smooth;}
   [data-ref="menuOverlay"] img[src$="menu-stamp-04.svg"]{width:clamp(74px,20vw,110px)!important;bottom:22%!important;right:5%!important;}
   [data-ref="menuOverlay"] img[src$="menu-stamp-01.svg"]{width:clamp(120px,32vw,190px)!important;}
   [data-ref="menuOverlay"] img[src$="menu-stamp-03.svg"]{width:clamp(104px,28vw,170px)!important;}
-  /* Testimonials: shrink so a long review isn't cut off */
-  #temoignages>div{padding-top:clamp(24px,4vh,54px)!important;padding-bottom:clamp(24px,4vh,54px)!important;}
+  /* Menu button becomes a clean hamburger circle on mobile */
+  .rm-menubtn{top:20px!important;right:18px!important;width:46px!important;height:46px!important;border-radius:50%!important;border:1.5px solid #E5E1D6!important;background:#1C164F!important;display:flex!important;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(28,22,79,0.28)!important;}
+  .rm-menubtn img{display:none!important;}
+  .rm-menubtn .rm-bars{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
+  .rm-menubtn .rm-bars span{display:block;width:20px;height:2px;border-radius:2px;background:#E5E1D6;transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .2s ease;}
+  .rm-menubtn.open .rm-bars span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .rm-menubtn.open .rm-bars span:nth-child(2){opacity:0;}
+  .rm-menubtn.open .rm-bars span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  /* Testimonials un-pin on mobile so a long review is never clipped */
+  #temoignages{height:auto!important;}
+  #temoignages>div{position:static!important;height:auto!important;padding:clamp(48px,9vh,80px) clamp(24px,6vw,40px)!important;}
   #temoignages h1{font-size:clamp(28px,6.8vw,42px)!important;line-height:0.98!important;margin-bottom:clamp(16px,2.6vh,30px)!important;}
-  .rm-revwrap{min-height:clamp(230px,40vh,330px)!important;width:min(90%,340px)!important;}
+  .rm-revwrap{min-height:0!important;overflow:visible!important;width:min(90%,360px)!important;}
   .rm-revcard>div:first-child{font-size:12px!important;gap:8px!important;margin-bottom:clamp(10px,1.8vh,18px)!important;}
   .rm-revcard>div:last-child{font-size:clamp(14px,3.9vw,16px)!important;line-height:1.22!important;gap:clamp(7px,1.2vh,12px)!important;}
 }.rm-menumobile{display:none;}

@@ -285,19 +285,54 @@
   var plates = Array.prototype.slice.call(document.querySelectorAll('.rm-plateinner'));
   var revCards = Array.prototype.slice.call(document.querySelectorAll('.rm-revcard'));
   var revDots = Array.prototype.slice.call(document.querySelectorAll('.rm-revdot'));
+  var revwrap = document.querySelector('.rm-revwrap');
   var toTopBtn = document.querySelector('.rm-totop');
-  var menuBtnShown = false, toTopShown = false, lastRevAct = -1;
+  var menuBtnShown = false, toTopShown = false, lastRevAct = -1, revMobile = false;
 
-  // Testimonial dots: clicking one scrolls to that review's position
+  // Crossfade to a specific review (used by the mobile dot carousel)
+  function setReview(i) {
+    revCards.forEach(function (c, k) {
+      if (!c.style.transition) c.style.transition = 'opacity .5s ease';
+      c.style.opacity = k === i ? '1' : '0';
+      c.style.transform = 'none';
+      c.style.zIndex = k === i ? '2' : '1';
+      c.classList.toggle('rm-on', k === i);
+    });
+    revDots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
+  }
+  // Lock the review wrapper to the tallest review so none is ever clipped
+  function equalizeReviews() {
+    if (!revwrap) return;
+    var mh = 0;
+    revCards.forEach(function (c) { mh = Math.max(mh, c.offsetHeight); });
+    if (mh) revwrap.style.height = mh + 'px';
+  }
+
+  // Dots: on mobile switch reviews in place; on desktop scroll to that point
   revDots.forEach(function (dot) {
     dot.addEventListener('click', function () {
-      if (!els.revSec || revCards.length < 2) return;
+      if (revCards.length < 2) return;
       var i = parseInt(dot.dataset.i, 10);
+      if (revMobile) { setReview(i); return; }
+      if (!els.revSec) return;
       var top = els.revSec.getBoundingClientRect().top + window.scrollY;
       var dist = els.revSec.offsetHeight - window.innerHeight;
       window.scrollTo({ top: top + dist * (i / (revCards.length - 1)), behavior: 'smooth' });
     });
   });
+
+  function enableMobileTestimonials() {
+    if (revMobile) return;
+    revMobile = true;
+    equalizeReviews();
+    setTimeout(equalizeReviews, 400);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalizeReviews);
+    window.addEventListener('resize', equalizeReviews, { passive: true });
+    setReview(0);
+  }
+  var revMq = window.matchMedia('(max-width:820px)');
+  if (revMq.matches) enableMobileTestimonials();
+  revMq.addEventListener('change', function (e) { if (e.matches) enableMobileTestimonials(); });
 
   function onScroll() {
     var vh = window.innerHeight;
@@ -358,7 +393,7 @@
     }
 
     // --- Testimonials (pinned): slide one review card in at a time ---
-    if (els.revSec && revCards.length) {
+    if (els.revSec && revCards.length && !revMobile) {
       var rr = els.revSec.getBoundingClientRect();
       var rd = rr.height - vh;
       var rp = clamp01(rd > 0 ? (-rr.top) / rd : 0);
