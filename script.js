@@ -60,8 +60,8 @@
   //  switch so we can swap back and forth without losing it.
   // ==========================================================================
   var isEnglish = false;
-  function toggleLanguage() {
-    isEnglish = !isEnglish;
+  function setLanguage(toEnglish) {
+    isEnglish = !!toEnglish;
     document.querySelectorAll('[data-en]').forEach(function (el) {
       if (isEnglish) {
         if (el.getAttribute('data-fr') === null) el.setAttribute('data-fr', el.innerHTML);
@@ -98,7 +98,8 @@
   var actions = {
     toggleMenu: function () { menuOpen = !menuOpen; applyMenu(); },
     closeMenu: function () { menuOpen = false; applyMenu(); },
-    langToggle: function () { toggleLanguage(); },
+    langToggle: function () { setLanguage(!isEnglish); },
+    toTop: function () { window.scrollTo({ top: 0, behavior: 'smooth' }); },
     goPhilo: function (e) {
       if (e) e.preventDefault();
       menuOpen = false; applyMenu();
@@ -123,6 +124,35 @@
     if (!fn) return;
     el.addEventListener(el.tagName === 'FORM' ? 'submit' : 'click', fn);
   });
+  // Footer language links set the language explicitly
+  document.querySelectorAll('[data-lang-set]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      setLanguage(el.getAttribute('data-lang-set') === 'en');
+    });
+  });
+
+  // ==========================================================================
+  //  Scroll-reveal: fade/slide static-flow elements in as they enter view.
+  //  (Scroll-scrubbed sections animate themselves, so we skip those.)
+  // ==========================================================================
+  var revealEls = [];
+  [
+    '#experiences-cards>div>h2', '#experiences-cards>div>p', '#experiences-cards .rm-exprow',
+    '#contact h2', '#contact .rm-cintro', '#contact .rm-cform', 'footer>div:first-child'
+  ].forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el) { el.setAttribute('data-reveal', ''); revealEls.push(el); });
+  });
+  var explistEl = document.querySelector('.rm-explist'); // has its own staggered li animation
+  if (explistEl) revealEls.push(explistEl);
+  if ('IntersectionObserver' in window) {
+    var revIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('rm-in'); revIO.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function (el) { revIO.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('rm-in'); });
+  }
 
   // ==========================================================================
   //  Menus — desktop list rendered per active category, mobile carousel.
@@ -191,8 +221,20 @@
     dots.forEach(function (el) { el.addEventListener('click', function () { setActive(parseInt(el.dataset.i, 10)); }); });
     setTimeout(function () { reveal(cards[0]); }, 80);
 
-    // swipe support
+    // Lock the stage to the tallest card so switching categories doesn't
+    // jump the layout height (smoother carousel).
     var stage = els.menuMobile.querySelector('.rm-mmstage');
+    var equalize = function () {
+      var mh = 0;
+      cards.forEach(function (c) { var d = c.style.display; c.style.display = 'block'; mh = Math.max(mh, c.offsetHeight); c.style.display = d; });
+      stage.style.minHeight = mh + 'px';
+    };
+    equalize();
+    setTimeout(equalize, 350);          // re-measure once fonts have settled
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalize);
+    window.addEventListener('resize', equalize, { passive: true });
+
+    // swipe support
     var sx = null;
     stage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
     stage.addEventListener('touchend', function (e) {
@@ -241,7 +283,20 @@
   var checkgrids = Array.prototype.slice.call(document.querySelectorAll('.rm-debut'));
   var plates = Array.prototype.slice.call(document.querySelectorAll('.rm-plateinner'));
   var revCards = Array.prototype.slice.call(document.querySelectorAll('.rm-revcard'));
-  var menuBtnShown = false;
+  var revDots = Array.prototype.slice.call(document.querySelectorAll('.rm-revdot'));
+  var toTopBtn = document.querySelector('.rm-totop');
+  var menuBtnShown = false, toTopShown = false, lastRevAct = -1;
+
+  // Testimonial dots: clicking one scrolls to that review's position
+  revDots.forEach(function (dot) {
+    dot.addEventListener('click', function () {
+      if (!els.revSec || revCards.length < 2) return;
+      var i = parseInt(dot.dataset.i, 10);
+      var top = els.revSec.getBoundingClientRect().top + window.scrollY;
+      var dist = els.revSec.offsetHeight - window.innerHeight;
+      window.scrollTo({ top: top + dist * (i / (revCards.length - 1)), behavior: 'smooth' });
+    });
+  });
 
   function onScroll() {
     var vh = window.innerHeight;
@@ -314,6 +369,10 @@
         el.style.zIndex = String(10 + (i === act ? 1 : 0));
         el.classList.toggle('rm-on', i === act);
       });
+      if (act !== lastRevAct) {
+        lastRevAct = act;
+        revDots.forEach(function (d, i) { d.classList.toggle('on', i === act); });
+      }
     }
 
     // --- Philosophie (pinned): gallery parallax + beige panel slides up ---
@@ -336,6 +395,15 @@
         st.opacity = show ? '1' : '0';
         st.pointerEvents = show ? 'auto' : 'none';
         st.transform = show ? 'none' : 'translateY(-8px)';
+      }
+    }
+
+    // --- Back-to-top appears once you're well down the page ---
+    if (toTopBtn) {
+      var showTop = window.scrollY > vh * 1.4;
+      if (showTop !== toTopShown) {
+        toTopShown = showTop;
+        toTopBtn.classList.toggle('show', showTop);
       }
     }
   }
