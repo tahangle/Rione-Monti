@@ -22,7 +22,7 @@
     'menuBtn', 'heroLogo', 'revealSec', 'philoPanel', 'galColL',
     'expSec', 'expPlates', 'expL1', 'expL2', 'expL3', 'expSub',
     'menuSec', 'revSec', 'menuTitle', 'menuList', 'menuMobile',
-    'menuOverlay', 'langBtn'
+    'menuOverlay', 'langBtn', 'topNav'
   ].forEach(function (n) { els[n] = ref(n); });
 
   // ---- shared helpers ------------------------------------------------------
@@ -80,6 +80,10 @@
         fr.style.textDecoration = isEnglish ? 'none' : 'underline';
       }
     }
+    // Reflect the active language on any inline fr/en toggle (e.g. the top bar)
+    document.querySelectorAll('[data-lang-set]').forEach(function (el) {
+      el.classList.toggle('rm-lang-active', (el.getAttribute('data-lang-set') === 'en') === isEnglish);
+    });
   }
 
   // ==========================================================================
@@ -88,7 +92,22 @@
   var menuOpen = false;
   function applyMenu() {
     if (els.menuBtn) els.menuBtn.classList.toggle('open', menuOpen);
+    // While the menu is open the button inverts (tile ↔ icon); restored on close
+    if (els.menuBtn && typeof navThemes !== 'undefined' && navThemes.length) {
+      var bt = navThemes[currentNavTheme >= 0 ? currentNavTheme : 0];
+      var bc = bt.btn || bt.bar || { bg: bt.bg, fg: bt.fg };
+      els.menuBtn.style.setProperty('--mb-bg', menuOpen ? bc.fg : bc.bg);
+      els.menuBtn.style.setProperty('--mb-fg', menuOpen ? bc.bg : bc.fg);
+    }
     if (!els.menuOverlay) return;
+    // Adopt the current section's palette, inverted from the tile:
+    // the tile's motif colour becomes the overlay background, tile bg → text.
+    if (menuOpen && typeof navThemes !== 'undefined' && navThemes.length) {
+      var t = navThemes[currentNavTheme >= 0 ? currentNavTheme : 0];
+      var ov = t.ov; // per-section overlay override, else inverted-tile default
+      els.menuOverlay.style.setProperty('--ov-bg', ov ? ov.bg : t.fg);
+      els.menuOverlay.style.setProperty('--ov-fg', ov ? ov.fg : t.bg);
+    }
     els.menuOverlay.style.opacity = menuOpen ? '1' : '0';
     els.menuOverlay.style.pointerEvents = menuOpen ? 'auto' : 'none';
   }
@@ -110,14 +129,28 @@
     },
     onSubmit: function (e) {
       if (e) e.preventDefault();
-      // Prototype behaviour: confirm on the button. Wire this to a real
-      // endpoint (email service / form backend) before going live.
-      var btn = e && e.target ? e.target.querySelector('button[type=submit]') : null;
-      if (btn) {
+      var form = e && e.target ? e.target : null;
+      if (!form) return;
+      var btn = form.querySelector('button[type=submit]');
+      var endpoint = form.getAttribute('action') || '';
+      var done = function () {
+        if (!btn) return;
         btn.textContent = isEnglish ? 'Message sent' : 'Message envoyé';
         btn.style.background = '#DEA529';
         btn.style.color = '#3A3528';
-      }
+      };
+      var fail = function () {
+        if (!btn) return;
+        btn.disabled = false;
+        btn.textContent = isEnglish ? 'Try again' : 'Réessayer';
+      };
+      // Not yet configured with a real Formspree form id → just confirm on the button.
+      if (!endpoint || endpoint.indexOf('YOUR_FORM_ID') !== -1) { done(); return; }
+      // Real submit: POST the fields to Formspree, stay on the page.
+      if (btn) { btn.disabled = true; btn.textContent = isEnglish ? 'Sending…' : 'Envoi…'; }
+      fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+        .then(function (r) { if (r.ok) { done(); form.reset(); } else { fail(); } })
+        .catch(fail);
     }
   };
   document.querySelectorAll('[data-action]').forEach(function (el) {
@@ -285,9 +318,75 @@
   var plates = Array.prototype.slice.call(document.querySelectorAll('.rm-plateinner'));
   var revCards = Array.prototype.slice.call(document.querySelectorAll('.rm-revcard'));
   var revDots = Array.prototype.slice.call(document.querySelectorAll('.rm-revdot'));
+  var revCur = 0, revTimer = null;
+
+  // Mobile: auto-cycle a gold spotlight through the event-type labels under the
+  // bottles (replaces the desktop hover reveal). No-op on desktop widths.
+  (function cycleExpLabels() {
+    var list = document.querySelector('.rm-explist');
+    if (!list) return;
+    var items = Array.prototype.slice.call(list.querySelectorAll('li'));
+    if (items.length < 2) return;
+    var mq = window.matchMedia('(max-width:820px)'), i = 0, t = null;
+    function tick() { items.forEach(function (li, k) { li.classList.toggle('rm-lon', k === i); }); i = (i + 1) % items.length; }
+    function manage() {
+      if (mq.matches && !t) { tick(); t = setInterval(tick, 1900); }
+      else if (!mq.matches && t) { clearInterval(t); t = null; items.forEach(function (li) { li.classList.remove('rm-lon'); }); }
+    }
+    manage();
+    mq.addEventListener('change', manage);
+  })();
+
+  // Marquees loop seamlessly at any width: clone each group's items until the
+  // group fills the viewport, so the two equal halves never reveal a gap.
+  (function fillMarquees() {
+    var vw = window.innerWidth;
+    document.querySelectorAll('.rm-marquee-track').forEach(function (track) {
+      Array.prototype.slice.call(track.children).forEach(function (group) {
+        var base = Array.prototype.slice.call(group.children);
+        if (!base.length) return;
+        var guard = 0;
+        while (group.scrollWidth < vw + 120 && guard < 12) {
+          base.forEach(function (n) { group.appendChild(n.cloneNode(true)); });
+          guard++;
+        }
+      });
+    });
+  })();
   var revwrap = document.querySelector('.rm-revwrap');
   var toTopBtn = document.querySelector('.rm-totop');
+  var topNavLinks = els.topNav ? Array.prototype.slice.call(els.topNav.querySelectorAll('a')) : [];
+  var heroMoka = document.querySelector('.rm-heromoka');
+
+  // "À propos" should land with the philosophie panel already revealed, so
+  // scroll past the reveal's completion point (progress > 0.8) instead of the
+  // section top (where the panel is still slid down).
+  var aboutLink = els.topNav && els.topNav.querySelector('a[href="#about"]');
+  if (aboutLink && els.revealSec) {
+    aboutLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      var rs = els.revealSec;
+      var absTop = rs.getBoundingClientRect().top + window.scrollY;
+      var target = absTop + Math.max(0, rs.offsetHeight - window.innerHeight) * 0.82;
+      window.scrollTo({ top: Math.round(target), behavior: 'smooth' });
+    });
+  }
   var menuBtnShown = false, toTopShown = false, lastRevAct = -1, revMobile = false;
+
+  // Menu button adapts its colour to the section it's currently over.
+  // Each entry: {el, bg (button fill), fg (icon + border)} from the palette.
+  var navThemes = [
+    { el: document.getElementById('top'), bg: '#E5E1D6', fg: '#1C164F' },              // teal hero
+    { el: document.getElementById('about'), bg: '#DEA529', fg: '#1C164F', bar: { bg: '#66593C', fg: '#E5E1D6' }, ov: { bg: '#66593C', fg: '#E5E1D6' } }, // philo: overlay brown bg / cream text
+    { el: document.getElementById('experiences'), bg: '#DEA529', fg: '#1C164F', bar: { bg: '#1E194E', fg: '#E5E1D6' }, btn: { bg: '#E5E1D6', fg: '#1E194E' }, ov: { bg: '#E5E1D6', fg: '#1C164F' }, nav: '#about' }, // cuisine: btn inverted; overlay cream/dark-blue
+    { el: document.querySelector('.rm-debut'), bg: '#9D2D21', fg: '#E5E1D6', ov: { bg: '#9D2D21', fg: '#E5E1D6' }, nav: '#about' }, // début: overlay red bg / cream text
+    { el: document.getElementById('experiences-cards'), bg: '#E5E1D6', fg: '#1C164F', bar: { bg: '#529EA7', fg: '#E5E1D6' }, btn: { bg: '#E5E1D6', fg: '#529EA7' }, ov: { bg: '#E5E1D6', fg: '#529EA7' } }, // événement: btn inverted; overlay cream/cyan
+    { el: document.getElementById('menus'), bg: '#E5E1D6', fg: '#1E194E', ov: { bg: '#E5E1D6', fg: '#1E194E' } }, // menus: overlay cream bg / navy text
+    { el: document.getElementById('temoignages'), bg: '#DEA529', fg: '#66593C', bar: { bg: '#66593C', fg: '#E5E1D6' }, btn: { bg: '#DEA529', fg: '#66593C' }, ov: { bg: '#DEA529', fg: '#66593C' } }, // avis: btn yellow tile/green icon; open inverts; overlay yellow bg/green text
+    { el: document.getElementById('contact'), bg: '#9D2D21', fg: '#E5E1D6', bar: { bg: '#E5E1D6', fg: '#DEA529' }, btn: { bg: '#66593C', fg: '#E5E1D6' }, ov: { bg: '#66593C', fg: '#E5E1D6' } }, // contact: btn green tile/cream icon (open inverts); overlay green bg/cream text
+    { el: document.querySelector('footer'), bg: '#E5E1D6', fg: '#9D2D21' }             // terracotta footer
+  ].filter(function (t) { return t.el; });
+  var currentNavTheme = -1;
 
   // Crossfade to a specific review (used by the mobile dot carousel)
   function setReview(i) {
@@ -299,7 +398,14 @@
       c.classList.toggle('rm-on', k === i);
     });
     revDots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
+    revCur = i;
   }
+  // Auto-advance the mobile reviews on a timer (desktop stays scroll-driven)
+  function startRevAuto() {
+    if (revTimer || revCards.length < 2) return;
+    revTimer = setInterval(function () { setReview((revCur + 1) % revCards.length); }, 5200);
+  }
+  function restartRevAuto() { if (revTimer) { clearInterval(revTimer); revTimer = null; } startRevAuto(); }
   // Lock the review wrapper to the tallest review so none is ever clipped
   function equalizeReviews() {
     if (!revwrap) return;
@@ -313,7 +419,7 @@
     dot.addEventListener('click', function () {
       if (revCards.length < 2) return;
       var i = parseInt(dot.dataset.i, 10);
-      if (revMobile) { setReview(i); return; }
+      if (revMobile) { setReview(i); restartRevAuto(); return; }
       if (!els.revSec) return;
       var top = els.revSec.getBoundingClientRect().top + window.scrollY;
       var dist = els.revSec.offsetHeight - window.innerHeight;
@@ -329,6 +435,7 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalizeReviews);
     window.addEventListener('resize', equalizeReviews, { passive: true });
     setReview(0);
+    startRevAuto();
   }
   var revMq = window.matchMedia('(max-width:820px)');
   if (revMq.matches) enableMobileTestimonials();
@@ -345,8 +452,19 @@
       el.style.setProperty('--rm-py', (off * -sp).toFixed(1) + 'px');
     });
 
+    // Hero moka: the hero is pinned (position:sticky), so its on-screen rect
+    // barely moves — rect-based parallax reads ~0. Drive its drift off scrollY
+    // directly so it actually glides up as you scroll out of the hero.
+    if (heroMoka) heroMoka.style.setProperty('--rm-py', (-window.scrollY * 0.16).toFixed(1) + 'px');
+
     // Hero logo fades once you leave the top
-    if (els.heroLogo) els.heroLogo.style.setProperty('opacity', window.scrollY > 90 ? '0' : '1', 'important');
+    if (els.heroLogo) {
+      var logoHidden = window.scrollY > 90;
+      els.heroLogo.style.setProperty('opacity', logoHidden ? '0' : '1', 'important');
+      // Disappear: a soft, elegant dissolve — barely scales, gently blurs
+      els.heroLogo.style.transform = logoHidden ? 'rotate(-5deg) scale(0.92) translateY(-4px)' : 'rotate(-5deg) scale(1) translateY(0)';
+      els.heroLogo.style.filter = logoHidden ? 'blur(2px)' : 'blur(0)';
+    }
 
     // Maiolica cascade: arm the diagonal tile wave when the band nears view
     checkgrids.forEach(function (g) {
@@ -431,6 +549,38 @@
         st.opacity = show ? '1' : '0';
         st.pointerEvents = show ? 'auto' : 'none';
         st.transform = show ? 'none' : 'translateY(-8px)';
+      }
+      // Recolour to the section sitting under the button (top-right).
+      // The hero is a sticky backdrop pinned at top:0, so skip it and let the
+      // content scrolling over it win; fall back to the hero only at page top.
+      if (navThemes.length) {
+        var by = 44, pick = -1, pickTop = -1e9;
+        for (var ti = 0; ti < navThemes.length; ti++) {
+          if (navThemes[ti].el.id === 'top') continue;
+          var tr = navThemes[ti].el.getBoundingClientRect();
+          if (tr.top <= by && tr.bottom > by && tr.top > pickTop) { pickTop = tr.top; pick = ti; }
+        }
+        if (pick < 0) pick = 0; // still on the hero
+        if (pick !== currentNavTheme) {
+          currentNavTheme = pick;
+          var heroNav = navThemes[pick].el.id === 'top';
+          var barOverride = navThemes[pick].bar;
+          // Menu button (tile) uses the section's specified bar colours where
+          // given, so the mobile icon matches the desktop bar; otherwise its
+          // own default pill colours.
+          var btnCol = navThemes[pick].btn || barOverride;
+          els.menuBtn.style.setProperty('--mb-bg', btnCol ? btnCol.bg : navThemes[pick].bg);
+          els.menuBtn.style.setProperty('--mb-fg', btnCol ? btnCol.fg : navThemes[pick].fg);
+          if (els.topNav) {
+            els.topNav.style.setProperty('--nav-bg', barOverride ? barOverride.bg : (heroNav ? 'transparent' : navThemes[pick].fg));
+            els.topNav.style.setProperty('--nav-fg', barOverride ? barOverride.fg : navThemes[pick].bg);
+          }
+          // Underline the nav link pointing at the current section
+          var curHash = navThemes[pick].nav || ('#' + navThemes[pick].el.id);
+          topNavLinks.forEach(function (a) {
+            a.classList.toggle('rm-nav-on', a.getAttribute('href') === curHash);
+          });
+        }
       }
     }
 
