@@ -188,6 +188,8 @@ html{scroll-behavior:smooth;}
   [data-ref="menuOverlay"] img[src$="menu-stamp-03.svg"]{width:clamp(104px,28vw,170px)!important;}
   /* Menu button becomes a clean hamburger circle on mobile */
   .rm-menubtn{top:18px!important;right:16px!important;width:48px!important;height:48px!important;border-radius:12px!important;}
+  /* Footer: drop the Navigation column on mobile (the menu button covers it) */
+  footer>div:first-child>div:first-child{display:none!important;}
   /* Testimonials un-pin on mobile so a long review is never clipped */
   #temoignages{height:auto!important;}
   #temoignages>div{position:static!important;height:auto!important;padding:clamp(48px,9vh,80px) clamp(24px,6vw,40px)!important;}
@@ -205,11 +207,12 @@ html{scroll-behavior:smooth;}
 .rm-heroh1{transform:none!important;}
 .rm-h1{font-weight:500!important;}
 /* Menu button: clean circle+hamburger on all viewports, recolours per section */
-/* Menu button: rounded tile with the star motif; recolours per section */
-.rm-menubtn{top:22px!important;right:22px!important;width:54px!important;height:54px!important;border-radius:13px!important;border:none!important;background:var(--mb-bg,#529EA8)!important;display:flex!important;align-items:center;justify-content:center;padding:0!important;box-shadow:0 6px 20px rgba(28,22,79,0.24)!important;transition:opacity .4s ease,transform .4s ease,background-color .6s ease!important;}
-.rm-menubtn img{display:none!important;}
-.rm-menubtn .rm-bars{display:none!important;}
-.rm-menubtn .rm-star{display:block;width:64%;height:64%;background:var(--mb-fg,#E5E1D6);-webkit-mask:url('assets/menu-star.svg') center/contain no-repeat;mask:url('assets/menu-star.svg') center/contain no-repeat;transition:background-color .6s ease;}
+/* Menu button: the tile icon, recolours per section (rect = tile, paths = motif) */
+.rm-menubtn{top:22px!important;right:22px!important;width:54px!important;height:54px!important;border-radius:13px!important;border:none!important;background:none!important;overflow:hidden!important;padding:0!important;display:block!important;box-shadow:0 6px 20px rgba(28,22,79,0.24)!important;transition:opacity .4s ease,transform .4s ease!important;}
+.rm-menubtn img,.rm-menubtn .rm-bars{display:none!important;}
+.rm-menubtn svg{width:100%!important;height:100%!important;display:block!important;}
+.rm-menubtn svg rect{fill:var(--mb-bg,#529EA7);transition:fill .6s ease;}
+.rm-menubtn svg path{fill:var(--mb-fg,#FFFEFE);transition:fill .6s ease;}
 /* Roomier rhythm — more air around the editorial sections */
 #experiences-cards{padding-top:clamp(100px,15vh,200px)!important;padding-bottom:clamp(100px,15vh,200px)!important;}
 #contact{padding:clamp(90px,13vh,170px) clamp(24px,5vw,68px)!important;}
