@@ -110,14 +110,28 @@
     },
     onSubmit: function (e) {
       if (e) e.preventDefault();
-      // Prototype behaviour: confirm on the button. Wire this to a real
-      // endpoint (email service / form backend) before going live.
-      var btn = e && e.target ? e.target.querySelector('button[type=submit]') : null;
-      if (btn) {
+      var form = e && e.target ? e.target : null;
+      if (!form) return;
+      var btn = form.querySelector('button[type=submit]');
+      var endpoint = form.getAttribute('action') || '';
+      var done = function () {
+        if (!btn) return;
         btn.textContent = isEnglish ? 'Message sent' : 'Message envoyé';
         btn.style.background = '#DEA529';
         btn.style.color = '#3A3528';
-      }
+      };
+      var fail = function () {
+        if (!btn) return;
+        btn.disabled = false;
+        btn.textContent = isEnglish ? 'Try again' : 'Réessayer';
+      };
+      // Not yet configured with a real Formspree form id → just confirm on the button.
+      if (!endpoint || endpoint.indexOf('YOUR_FORM_ID') !== -1) { done(); return; }
+      // Real submit: POST the fields to Formspree, stay on the page.
+      if (btn) { btn.disabled = true; btn.textContent = isEnglish ? 'Sending…' : 'Envoi…'; }
+      fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+        .then(function (r) { if (r.ok) { done(); form.reset(); } else { fail(); } })
+        .catch(fail);
     }
   };
   document.querySelectorAll('[data-action]').forEach(function (el) {
