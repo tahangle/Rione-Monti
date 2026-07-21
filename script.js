@@ -461,9 +461,8 @@
     if (els.heroLogo) {
       var logoHidden = window.scrollY > 90;
       els.heroLogo.style.setProperty('opacity', logoHidden ? '0' : '1', 'important');
-      // Disappear: a soft, elegant dissolve — barely scales, gently blurs
+      // Disappear: gentle scale-down + fade, no blur
       els.heroLogo.style.transform = logoHidden ? 'rotate(-5deg) scale(0.92) translateY(-4px)' : 'rotate(-5deg) scale(1) translateY(0)';
-      els.heroLogo.style.filter = logoHidden ? 'blur(2px)' : 'blur(0)';
     }
 
     // Maiolica cascade: arm the diagonal tile wave when the band nears view
