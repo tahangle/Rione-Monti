@@ -187,13 +187,7 @@ html{scroll-behavior:smooth;}
   [data-ref="menuOverlay"] img[src$="menu-stamp-01.svg"]{width:clamp(120px,32vw,190px)!important;}
   [data-ref="menuOverlay"] img[src$="menu-stamp-03.svg"]{width:clamp(104px,28vw,170px)!important;}
   /* Menu button becomes a clean hamburger circle on mobile */
-  .rm-menubtn{top:20px!important;right:18px!important;width:46px!important;height:46px!important;border-radius:50%!important;border:1.5px solid #E5E1D6!important;background:#1C164F!important;display:flex!important;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(28,22,79,0.28)!important;}
-  .rm-menubtn img{display:none!important;}
-  .rm-menubtn .rm-bars{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
-  .rm-menubtn .rm-bars span{display:block;width:20px;height:2px;border-radius:2px;background:#E5E1D6;transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .2s ease;}
-  .rm-menubtn.open .rm-bars span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-  .rm-menubtn.open .rm-bars span:nth-child(2){opacity:0;}
-  .rm-menubtn.open .rm-bars span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .rm-menubtn{top:18px!important;right:16px!important;width:48px!important;height:48px!important;border-radius:12px!important;}
   /* Testimonials un-pin on mobile so a long review is never clipped */
   #temoignages{height:auto!important;}
   #temoignages>div{position:static!important;height:auto!important;padding:clamp(48px,9vh,80px) clamp(24px,6vw,40px)!important;}
@@ -211,13 +205,11 @@ html{scroll-behavior:smooth;}
 .rm-heroh1{transform:none!important;}
 .rm-h1{font-weight:500!important;}
 /* Menu button: clean circle+hamburger on all viewports, recolours per section */
-.rm-menubtn{top:20px!important;right:18px!important;width:48px!important;height:48px!important;border-radius:50%!important;border:1.5px solid var(--mb-fg,#E5E1D6)!important;background:var(--mb-bg,#1C164F)!important;display:flex!important;align-items:center;justify-content:center;padding:0!important;box-shadow:0 6px 18px rgba(28,22,79,0.20)!important;transition:opacity .4s ease,transform .4s ease,background-color .6s ease,border-color .6s ease!important;}
+/* Menu button: rounded tile with the star motif; recolours per section */
+.rm-menubtn{top:22px!important;right:22px!important;width:54px!important;height:54px!important;border-radius:13px!important;border:none!important;background:var(--mb-bg,#529EA8)!important;display:flex!important;align-items:center;justify-content:center;padding:0!important;box-shadow:0 6px 20px rgba(28,22,79,0.24)!important;transition:opacity .4s ease,transform .4s ease,background-color .6s ease!important;}
 .rm-menubtn img{display:none!important;}
-.rm-menubtn .rm-bars{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
-.rm-menubtn .rm-bars span{display:block;width:20px;height:2px;border-radius:2px;background:var(--mb-fg,#E5E1D6);transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .2s ease,background-color .6s ease;}
-.rm-menubtn.open .rm-bars span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-.rm-menubtn.open .rm-bars span:nth-child(2){opacity:0;}
-.rm-menubtn.open .rm-bars span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.rm-menubtn .rm-bars{display:none!important;}
+.rm-menubtn .rm-star{display:block;width:64%;height:64%;background:var(--mb-fg,#E5E1D6);-webkit-mask:url('assets/menu-star.svg') center/contain no-repeat;mask:url('assets/menu-star.svg') center/contain no-repeat;transition:background-color .6s ease;}
 /* Roomier rhythm — more air around the editorial sections */
 #experiences-cards{padding-top:clamp(100px,15vh,200px)!important;padding-bottom:clamp(100px,15vh,200px)!important;}
 #contact{padding:clamp(90px,13vh,170px) clamp(24px,5vw,68px)!important;}
