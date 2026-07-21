@@ -190,6 +190,8 @@ html{scroll-behavior:smooth;}
   .rm-menubtn{top:18px!important;right:16px!important;width:48px!important;height:48px!important;border-radius:12px!important;}
   /* Footer: drop the Navigation column on mobile (the menu button covers it) */
   footer>div:first-child>div:first-child{display:none!important;}
+  /* Come-a-casa sticker is a desktop touch; the mobile form is too dense for it */
+  .rm-contact-sticker{display:none!important;}
   /* Testimonials un-pin on mobile so a long review is never clipped */
   #temoignages{height:auto!important;}
   #temoignages>div{position:static!important;height:auto!important;padding:clamp(48px,9vh,80px) clamp(24px,6vw,40px)!important;}
