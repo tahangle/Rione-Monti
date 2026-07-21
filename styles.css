@@ -232,6 +232,8 @@ footer{padding-top:clamp(64px,9vh,110px)!important;}
 /* Desktop: drop the "Nos Expériences" heading + intro (kept on mobile) */
 @media (min-width:821px){
   #experiences-cards>div>h2,#experiences-cards>div>p{display:none!important;}
+  /* Contact title wraps to two lines so the sticker sits beside it */
+  #contact .rm-h0{max-width:640px!important;margin-left:auto!important;margin-right:auto!important;}
 }
 /* Contact: centred title + intro + form block, but fields read left-aligned */
 #contact>div>div{flex-direction:column!important;align-items:center!important;text-align:center!important;gap:0!important;}
