@@ -213,8 +213,10 @@ html{scroll-behavior:smooth;}
 .rm-menubtn svg{width:100%!important;height:100%!important;display:block!important;padding:6px!important;box-sizing:border-box!important;}
 .rm-menubtn svg path{fill:var(--mb-fg,#FFFEFE);transition:fill .6s ease;}
 /* Overlay menu adopts the section palette (inverted from the tile) */
-[data-ref="menuOverlay"]{background:var(--ov-bg,#1C164F)!important;transition:opacity .5s ease,background-color .5s ease!important;}
+[data-ref="menuOverlay"]{background:var(--ov-bg,#1C164F)!important;gap:clamp(20px,3.2vh,38px)!important;transition:opacity .5s ease,background-color .5s ease!important;}
 [data-ref="menuOverlay"] a,[data-ref="menuOverlay"] [data-ref="langBtn"]{color:var(--ov-fg,#E5E1D6)!important;transition:color .5s ease;}
+/* Menu items at the elegant H1 scale */
+[data-ref="menuOverlay"] a{font-size:clamp(24px,3.2vw,42px)!important;font-weight:500!important;line-height:1!important;letter-spacing:0.06em!important;}
 [data-ref="menuOverlay"] a:hover{opacity:0.62;}
 .rm-ovstamp{background:var(--ov-fg,#E5E1D6);pointer-events:none;transition:background-color .5s ease;}
 /* Roomier rhythm — more air around the editorial sections */
