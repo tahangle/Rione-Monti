@@ -32,14 +32,5 @@ For navigation that behaves exactly like production, serve it:
 npx serve .
 ```
 
-## Before going fully live — two to-dos
-
-1. **Fonts are trial / "unlicensed" cuts** (Rauschen, HAL Timezone). They're fine
-   for review but **must be swapped for licensed versions** before this is a
-   public commercial site.
-2. **The contact form doesn't send yet.** Submitting just confirms on the button.
-   Wire it to a real backend (a form service like Formspree, or an email
-   endpoint) when ready.
-
 ---
 Design & development by [Caterina Tahan](https://www.caterinatahan.com).
