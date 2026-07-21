@@ -89,6 +89,13 @@
   function applyMenu() {
     if (els.menuBtn) els.menuBtn.classList.toggle('open', menuOpen);
     if (!els.menuOverlay) return;
+    // Adopt the current section's palette, inverted from the tile:
+    // the tile's motif colour becomes the overlay background, tile bg → text.
+    if (menuOpen && typeof navThemes !== 'undefined' && navThemes.length) {
+      var t = navThemes[currentNavTheme >= 0 ? currentNavTheme : 0];
+      els.menuOverlay.style.setProperty('--ov-bg', t.fg);
+      els.menuOverlay.style.setProperty('--ov-fg', t.bg);
+    }
     els.menuOverlay.style.opacity = menuOpen ? '1' : '0';
     els.menuOverlay.style.pointerEvents = menuOpen ? 'auto' : 'none';
   }
