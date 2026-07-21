@@ -33,17 +33,19 @@ a{color:inherit;text-decoration:none;}
 .rm-expcard:hover .rm-expmore{opacity:0.85;max-height:20px;transform:none;}
 .rm-botrow{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:clamp(6px,1vw,20px);min-height:clamp(240px,40vh,360px);}
 .rm-bot{flex:none;transition:transform .6s ease;}
-.rm-bot img{display:block;height:clamp(200px,32vh,320px);width:auto;filter:grayscale(1) contrast(1.02);animation:rmBotFloat 4.6s ease-in-out infinite;}
+.rm-bot img{display:block;height:clamp(172px,27vh,272px);width:auto;filter:grayscale(1) contrast(1.02);animation:rmBotFloat 4.6s ease-in-out infinite;}
 @keyframes rmBotFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-11px);}}
 .b1 img{animation-duration:5.3s;animation-delay:-1.4s;}
 .b2 img{animation-duration:4.9s;animation-delay:-2.2s;}
 .b3 img{animation-duration:5.7s;animation-delay:-0.6s;}
-.rm-botlabel{flex:0 0 0;width:0;overflow:hidden;display:flex;align-items:center;justify-content:center;align-self:center;text-align:center;opacity:0;white-space:nowrap;font-family:'Rauschen',sans-serif;font-weight:400;font-size:clamp(14px,1.2vw,19px);letter-spacing:0.14em;text-transform:uppercase;color:#E5E1D6;transition:flex-basis .7s cubic-bezier(.16,1,.3,1),opacity .55s ease;pointer-events:none;}
+.rm-botlabel{flex:0 0 0;width:0;overflow:hidden;display:flex;align-items:center;justify-content:center;align-self:center;text-align:center;opacity:0;white-space:nowrap;font-family:'Rauschen',sans-serif;font-weight:400;font-size:15px;line-height:0.97;letter-spacing:0.07em;text-transform:uppercase;color:#E5E1D6;transition:flex-basis .7s cubic-bezier(.16,1,.3,1),opacity .55s ease;pointer-events:none;}
 .rm-zone{position:absolute;top:0;bottom:0;width:25%;z-index:5;cursor:pointer;}
 .rm-z0{left:0;}.rm-z1{left:25%;}.rm-z2{left:50%;}.rm-z3{left:75%;}
 .rm-botrow:has(.rm-z0:hover) .rm-lbl0,.rm-botrow:has(.rm-z1:hover) .rm-lbl1,.rm-botrow:has(.rm-z2:hover) .rm-lbl2,.rm-botrow:has(.rm-z3:hover) .rm-lbl3{flex-basis:clamp(190px,22vw,320px);opacity:1;}
 .rm-hint{text-align:center;font-family:'TimezoneMono',monospace;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#E5E1D6;opacity:0.6;margin-top:clamp(20px,3vh,38px);}
 .rm-explist{display:none;}
+.rm-explist li{transition:opacity .5s ease;}
+.rm-explist li.rm-lon{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px;}
 *{box-sizing:border-box;}
 @keyframes rmFloat{0%,100%{transform:translateY(0) rotate(var(--r,0deg));}50%{transform:translateY(-16px) rotate(var(--r,0deg));}}
 @keyframes rmGlide{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
@@ -61,6 +63,7 @@ html{scroll-behavior:smooth;}
 .rm-revcard.rm-on .rm-star{animation:rmStarIn .45s cubic-bezier(.16,1,.3,1) both;}
 @keyframes rmHeroFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-24px);}}
 @keyframes rmFadeDown{from{opacity:0;transform:translateY(-14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes rmFade{from{opacity:0;}to{opacity:1;}}
 @keyframes rmRise{from{opacity:0;transform:translateY(42px);}to{opacity:1;transform:none;}}
 @keyframes rmLineUp{from{transform:translateY(108%);}to{transform:none;}}
 @keyframes rmFadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:none;}}
@@ -84,6 +87,10 @@ html{scroll-behavior:smooth;}
 .rm-mdish{opacity:0;}
 .rm-mpanel.rm-on .rm-mdish{animation:rmDishIn .5s cubic-bezier(.16,1,.3,1) both;}
 .rm-marquee-track{display:flex;width:max-content;animation:rmMarquee 34s linear infinite;}
+.rm-galmarquee img{width:290px;aspect-ratio:290/436;height:auto;object-fit:cover;border-radius:10px;border:2px solid #E5E1D6;box-sizing:border-box;margin-right:15px;flex:none;display:block;}
+/* philosophie grid: clean top + bottom cream strokes only (no side strokes) */
+.rm-galgrid img{border-top:2px solid #E5E1D6;border-bottom:2px solid #E5E1D6;border-radius:0;box-sizing:border-box;}
+#experiences-cards{border-top:2px solid #E5E1D6;}
 .rm-pill{display:inline-flex;align-items:center;gap:10px;font-family:'Monosten',monospace;font-weight:400;font-size:13px;letter-spacing:0.07em;text-transform:uppercase;padding:14px 26px;border:1.5px solid #1C164F;border-radius:100px;color:#1C164F;transition:background .4s ease,color .4s ease,gap .3s ease;}
 .rm-pill:hover{background:#1C164F;color:#E5E1D6;gap:16px;}
 @keyframes rmDrift{from{background-position:0 0;}to{background-position:360px 0;}}
@@ -144,9 +151,11 @@ html{scroll-behavior:smooth;}
   .rm-debutgrid>div:first-child,.rm-debutgrid>div:last-child{height:calc(100vw / 7 * 3)!important;}
   .rm-ck-d{display:none!important;}
   .rm-ck-m{display:grid!important;}
-  .rm-debutimg{width:min(260px,62%)!important;margin-top:clamp(22px,7vw,44px)!important;margin-bottom:clamp(44px,14vw,80px)!important;padding:clamp(6px,2.5vw,14px)!important;}
-  .rm-debutimg img[alt="Né à Rome"]{width:clamp(52px,17vw,72px)!important;left:-14%!important;}
-  .rm-debutimg img[alt="Été 2024"]{width:clamp(88px,29vw,120px)!important;}
+  .rm-debutimg{width:min(320px,78%)!important;margin-top:clamp(22px,7vw,44px)!important;margin-bottom:clamp(44px,14vw,80px)!important;padding:clamp(6px,2.5vw,14px)!important;}
+  /* history eyebrow: keep it tight/centred instead of spanning the whole width */
+  .rm-center>div:nth-child(2){max-width:min(320px,82vw)!important;margin:0 auto 16px!important;}
+  .rm-debutimg img[alt="Né à Rome"]{width:clamp(84px,27vw,116px)!important;left:auto!important;right:-8%!important;bottom:-10%!important;}
+  .rm-debutimg img[alt="Été 2024"]{width:clamp(80px,26vw,108px)!important;top:-11%!important;left:-14%!important;}
   /* one consistent body-text column on mobile, with breathing room from the edges */
   .rm-exptext p{width:auto!important;height:auto!important;}
   #experiences-cards>div>p,.rm-center>p,.rm-center>div:last-child,.rm-exptext p,.rm-menupanel p,.rm-philo p{max-width:min(340px,74vw)!important;margin-left:auto!important;margin-right:auto!important;text-wrap:pretty!important;}
@@ -162,7 +171,7 @@ html{scroll-behavior:smooth;}
   .rm-bot img{height:clamp(150px,42vw,240px)!important;}
   .rm-botlabel{display:none!important;}
   .rm-explist{display:flex!important;flex-direction:column;gap:clamp(10px,1.8vh,18px);margin:clamp(26px,5vh,42px) auto 0;padding:0;list-style:none;max-width:340px;width:100%;}
-  .rm-explist li{font-family:'Rauschen',sans-serif;font-weight:400;font-size:clamp(15px,4.6vw,20px);line-height:1.1;letter-spacing:0.07em;text-transform:uppercase;color:#E5E1D6;text-align:center;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .7s cubic-bezier(.16,1,.3,1);}
+  .rm-explist li{font-family:'Rauschen',sans-serif;font-weight:400;font-size:15px;line-height:0.97;letter-spacing:0.07em;text-transform:uppercase;color:#E5E1D6;text-align:center;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .7s cubic-bezier(.16,1,.3,1);}
   .rm-explist.rm-in li{opacity:1;transform:none;}
   .rm-explist.rm-in li:nth-child(1){transition-delay:.05s;}
   .rm-explist.rm-in li:nth-child(2){transition-delay:.15s;}
@@ -172,9 +181,20 @@ html{scroll-behavior:smooth;}
   .rm-spark{display:none!important;}
   .rm-exprow{flex-direction:column!important;align-items:stretch!important;}
   .rm-exptext{flex:1 1 auto!important;text-align:center!important;padding-left:0!important;}
-  .rm-exptext h2{display:none!important;}
+  /* mobile matches desktop: hide the big "Nos Expériences" + intro, keep the
+     "Donnez vie à votre événement" title in the column */
+  #experiences-cards>div>h2,#experiences-cards>div>p{display:none!important;}
+  .rm-exptext h2{display:block!important;width:auto!important;max-width:100%!important;margin-top:clamp(16px,3vh,30px)!important;}
+  /* labels stay under the bottles (auto-cycled by timer, no hover); eyebrow hidden; compact spacing so there's no huge gap */
+  .rm-exptext h3{display:none!important;}
+  .rm-exprow{gap:clamp(14px,3.5vh,30px)!important;}
+  .rm-exprow>div{flex:0 0 auto!important;}
+  .rm-explist{margin-top:clamp(18px,3vh,30px)!important;}
   .rm-exptext p{margin-left:auto!important;margin-right:auto!important;}
   #menus{height:auto!important;}
+  /* stack the navy panel over the menu list on mobile (was a flex row, pushing the list off-screen) */
+  .rm-menuinner{flex-direction:column!important;height:auto!important;position:static!important;overflow:visible!important;}
+  [data-ref="mcBR2"]{display:none!important;} /* decorative hand — too much on mobile */
   .rm-menuinner{position:static!important;height:auto!important;flex-direction:column!important;overflow:visible!important;}
   .rm-menupanel{width:100%!important;}
   .rm-menudesk{display:none!important;}
@@ -182,7 +202,7 @@ html{scroll-behavior:smooth;}
   .rm-menumobile{display:block!important;padding:0;}
   .rm-menutop{justify-content:center!important;gap:6px 10px!important;flex-wrap:wrap;margin-left:auto!important;margin-right:auto!important;}
   /* overlay-menu stencil stickers: keep them out of the link stack */
-  .rm-ovstamp.s2{top:auto!important;bottom:6%!important;left:5%!important;width:clamp(96px,26vw,150px)!important;}
+  .rm-ovstamp.s2{display:none!important;} /* "Che Buono" — too much on mobile */
   .rm-ovstamp.s4{width:clamp(74px,20vw,110px)!important;bottom:22%!important;right:5%!important;}
   .rm-ovstamp.s1{width:clamp(120px,32vw,190px)!important;}
   .rm-ovstamp.s3{width:clamp(104px,28vw,170px)!important;}
@@ -190,8 +210,8 @@ html{scroll-behavior:smooth;}
   .rm-menubtn{top:18px!important;right:16px!important;width:48px!important;height:48px!important;border-radius:12px!important;}
   /* Footer: drop the Navigation column on mobile (the menu button covers it) */
   footer>div:first-child>div:first-child{display:none!important;}
-  /* Come-a-casa sticker is a desktop touch; the mobile form is too dense for it */
-  .rm-contact-sticker{display:none!important;}
+  /* Come-a-casa sticker: shown top-right on mobile too */
+  .rm-contact-sticker{display:block!important;top:clamp(40px,6vh,80px)!important;left:clamp(10px,4vw,28px)!important;right:auto!important;width:clamp(96px,30vw,150px)!important;}
   /* Testimonials un-pin on mobile so a long review is never clipped */
   #temoignages{height:auto!important;}
   #temoignages>div{position:static!important;height:auto!important;padding:clamp(48px,9vh,80px) clamp(24px,6vw,40px)!important;}
@@ -214,6 +234,18 @@ html{scroll-behavior:smooth;}
 .rm-menubtn img,.rm-menubtn .rm-bars{display:none!important;}
 .rm-menubtn svg{width:100%!important;height:100%!important;display:block!important;padding:6px!important;box-sizing:border-box!important;}
 .rm-menubtn svg path{fill:var(--mb-fg,#FFFEFE);transition:fill .6s ease;}
+/* Persistent colour-adapting top nav (bar is transparent; text takes the
+   section's contrast colour via --nav-fg, set from JS on scroll) */
+.rm-topnav{position:fixed;top:0;left:0;right:0;z-index:120;display:flex;align-items:center;justify-content:space-between;gap:clamp(10px,2vw,40px);padding:clamp(14px,2vh,24px) clamp(24px,4vw,72px);box-sizing:border-box;--nav-fg:#E5E1D6;--nav-bg:transparent;background:var(--nav-bg);border-top:1px solid var(--nav-fg);border-bottom:1px solid var(--nav-fg);transition:background-color .6s ease,border-color .6s ease;}
+.rm-topnav>*{pointer-events:auto;}
+.rm-topnav a{font-family:'Rauschen',sans-serif;font-weight:400;font-size:clamp(11px,0.92vw,14px);letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;color:var(--nav-fg);transition:color .6s ease,opacity .3s ease;white-space:nowrap;}
+.rm-topnav a:hover{opacity:0.55;}
+.rm-topnav a.rm-nav-on{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px;opacity:1;}
+.rm-topnav-lang{display:flex;align-items:center;gap:8px;font-family:'Rauschen',sans-serif;font-size:clamp(11px,0.92vw,14px);letter-spacing:0.16em;text-transform:uppercase;color:var(--nav-fg);transition:color .6s ease;}
+.rm-topnav-lang [data-lang-set]{cursor:pointer;opacity:0.5;transition:opacity .3s ease;}
+.rm-topnav-lang [data-lang-set]:hover{opacity:0.8;}
+.rm-topnav-lang [data-lang-set].rm-lang-active{opacity:1;}
+.rm-topnav-slash{opacity:0.5;}
 /* Overlay menu adopts the section palette (inverted from the tile) */
 [data-ref="menuOverlay"]{background:var(--ov-bg,#1C164F)!important;gap:clamp(20px,3.2vh,38px)!important;transition:opacity .5s ease,background-color .5s ease!important;}
 [data-ref="menuOverlay"] a,[data-ref="menuOverlay"] [data-ref="langBtn"]{color:var(--ov-fg,#E5E1D6)!important;transition:color .5s ease;}
@@ -231,6 +263,8 @@ footer{padding-top:clamp(64px,9vh,110px)!important;}
 #experiences .rm-h0{line-height:1.12!important;}
 /* Desktop: drop the "Nos Expériences" heading + intro (kept on mobile) */
 @media (min-width:821px){
+  /* the top bar is the desktop nav, so retire the floating tile button */
+  .rm-menubtn{display:none!important;}
   #experiences-cards>div>h2,#experiences-cards>div>p{display:none!important;}
   /* Contact title wraps to two lines so the sticker sits beside it */
   #contact .rm-h0{max-width:640px!important;margin-left:auto!important;margin-right:auto!important;}
@@ -242,10 +276,16 @@ footer{padding-top:clamp(64px,9vh,110px)!important;}
 .rm-cform{flex:none!important;width:100%!important;max-width:640px!important;margin:0 auto!important;text-align:left!important;}
 .rm-cform label,.rm-cform label span{text-align:left!important;}
 @media (max-width:820px){
+  /* the bar doesn't fit narrow screens; the tile button handles mobile nav */
+  .rm-topnav{display:none!important;}
+  /* gallery: full-bleed to the viewport edges (ignore the section's side padding) + slightly bigger cards */
+  .rm-galmarquee{width:100vw!important;margin-left:calc(50% - 50vw)!important;}
+  .rm-galmarquee img{width:clamp(190px,52vw,250px)!important;}
   .rm-h0{font-size:clamp(26px,6.8vw,42px)!important;}
+  #menus .rm-h0{font-size:clamp(44px,11vw,80px)!important;} /* Nos Menus stays a big h1-scale title on mobile */
   .rm-herodecor{display:none!important;}
   /* keep the moka on mobile (bottles/sparkles stay desktop-only) */
   .rm-heromoka{display:block!important;left:auto!important;right:-12px!important;top:auto!important;bottom:3%!important;transform:none!important;height:clamp(150px,30vh,225px)!important;z-index:2!important;opacity:0.96;}
   /* tagline sits under the title (in flow) so it doesn't land on the moka */
-  #top>h2{position:static!important;bottom:auto!important;left:auto!important;right:auto!important;margin:clamp(18px,3.5vh,34px) auto 0!important;max-width:320px!important;}
+  #top>h2{position:absolute!important;bottom:clamp(56px,12vh,120px)!important;left:0!important;right:0!important;margin:0 auto!important;max-width:320px!important;}
 }
