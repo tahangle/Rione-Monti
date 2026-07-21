@@ -1,11 +1,6 @@
-@font-face{font-family:'Affairs';src:url('fonts/AffairsTest-Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
-@font-face{font-family:'Affairs';src:url('fonts/AffairsTest-Italic.otf') format('opentype');font-weight:400;font-style:italic;font-display:swap;}
-@font-face{font-family:'AffairsMono';src:url('fonts/AffairsTest-Mono.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
 @font-face{font-family:'Timezone';src:url('fonts/HALTimezoneUnlicensed-Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
 @font-face{font-family:'Timezone';src:url('fonts/HALTimezoneUnlicensed-Book.otf') format('opentype');font-weight:200 350;font-style:normal;font-display:swap;}
-@font-face{font-family:'TimezoneBook';src:url('fonts/HALTimezoneUnlicensed-Book.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
 @font-face{font-family:'TimezoneMono';src:url('fonts/HALTimezoneMonoUnlicensed-Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
-@font-face{font-family:'MonostenStencil';src:url('fonts/MonostenStencilPro-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
 @font-face{font-family:'Rauschen';src:url('fonts/Rauschen-Black.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
 @font-face{font-family:'Rauschen';src:url('fonts/Rauschen-Semibold.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap;}
 @font-face{font-family:'Rauschen';src:url('fonts/Rauschen-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap;}
@@ -14,7 +9,6 @@
 @font-face{font-family:'Rauschen';src:url('fonts/Rauschen-Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
 @font-face{font-family:'Monosten';src:url('fonts/Monosten-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
 @font-face{font-family:'Monosten';src:url('fonts/Monosten-Bold.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
-@font-face{font-family:'MonostenLight';src:url('fonts/Monosten-Light.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
 body{margin:0;background:#E5E1D6;}
 a{color:inherit;text-decoration:none;}
 .rm-nl-input::placeholder{color:#9D2D21;opacity:0.75;}
