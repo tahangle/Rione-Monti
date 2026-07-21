@@ -218,6 +218,10 @@ footer{padding-top:clamp(64px,9vh,110px)!important;}
 #experiences-cards>div>p{margin-top:clamp(28px,4vh,48px)!important;margin-bottom:clamp(56px,8vh,110px)!important;}
 /* Retune the 3-line "La cuisine..." title for the smaller type */
 #experiences .rm-h0{line-height:1.12!important;}
+/* Desktop: drop the "Nos Expériences" heading + intro (kept on mobile) */
+@media (min-width:821px){
+  #experiences-cards>div>h2,#experiences-cards>div>p{display:none!important;}
+}
 /* Contact: single editorial column, left-aligned (title, intro, form) */
 #contact>div>div{flex-direction:column!important;align-items:flex-start!important;text-align:left!important;gap:0!important;}
 #contact .rm-h0{text-align:left!important;}
