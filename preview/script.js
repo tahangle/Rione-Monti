@@ -303,6 +303,21 @@
   var toTopBtn = document.querySelector('.rm-totop');
   var menuBtnShown = false, toTopShown = false, lastRevAct = -1, revMobile = false;
 
+  // Menu button adapts its colour to the section it's currently over.
+  // Each entry: {el, bg (button fill), fg (icon + border)} from the palette.
+  var navThemes = [
+    { el: document.getElementById('top'), bg: '#E5E1D6', fg: '#1C164F' },              // teal hero
+    { el: document.getElementById('about'), bg: '#DEA529', fg: '#1C164F' },            // navy/beige philo
+    { el: document.getElementById('experiences'), bg: '#DEA529', fg: '#1C164F' },      // navy cuisine
+    { el: document.querySelector('.rm-debut'), bg: '#9D2D21', fg: '#E5E1D6' },         // cream / terracotta début
+    { el: document.getElementById('experiences-cards'), bg: '#E5E1D6', fg: '#1C164F' },// teal experiences
+    { el: document.getElementById('menus'), bg: '#E5E1D6', fg: '#1E194E' },            // navy panel / cream
+    { el: document.getElementById('temoignages'), bg: '#DEA529', fg: '#66593C' },      // brown testimonials
+    { el: document.getElementById('contact'), bg: '#9D2D21', fg: '#E5E1D6' },          // cream contact
+    { el: document.querySelector('footer'), bg: '#E5E1D6', fg: '#9D2D21' }             // terracotta footer
+  ].filter(function (t) { return t.el; });
+  var currentNavTheme = -1;
+
   // Crossfade to a specific review (used by the mobile dot carousel)
   function setReview(i) {
     revCards.forEach(function (c, k) {
@@ -445,6 +460,23 @@
         st.opacity = show ? '1' : '0';
         st.pointerEvents = show ? 'auto' : 'none';
         st.transform = show ? 'none' : 'translateY(-8px)';
+      }
+      // Recolour to the section sitting under the button (top-right).
+      // The hero is a sticky backdrop pinned at top:0, so skip it and let the
+      // content scrolling over it win; fall back to the hero only at page top.
+      if (navThemes.length) {
+        var by = 44, pick = -1, pickTop = -1e9;
+        for (var ti = 0; ti < navThemes.length; ti++) {
+          if (navThemes[ti].el.id === 'top') continue;
+          var tr = navThemes[ti].el.getBoundingClientRect();
+          if (tr.top <= by && tr.bottom > by && tr.top > pickTop) { pickTop = tr.top; pick = ti; }
+        }
+        if (pick < 0) pick = 0; // still on the hero
+        if (pick !== currentNavTheme) {
+          currentNavTheme = pick;
+          els.menuBtn.style.setProperty('--mb-bg', navThemes[pick].bg);
+          els.menuBtn.style.setProperty('--mb-fg', navThemes[pick].fg);
+        }
       }
     }
 
