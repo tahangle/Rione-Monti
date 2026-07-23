@@ -43,7 +43,7 @@ collections:
           - { name: email,     label: Email address, widget: string }
           - { name: phone,     label: Phone (e.g. +33787212726), widget: string }
           - { name: instagram, label: Instagram URL, widget: string }
-          - { name: facebook,  label: Facebook URL,  widget: string }
+          - { name: linkedin,  label: LinkedIn URL,  widget: string }
 
   # ── 2. Menus ───────────────────────────────────────────────────────────────
   # A list of categories; each category holds a list of dishes. The client can
