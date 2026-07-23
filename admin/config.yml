@@ -8,7 +8,7 @@
 backend:
   name: github
   repo: tahangle/Rione-Monti   # owner/repo — change if you transfer it to the client
-  branch: main
+  branch: cms-prototype        # TEST phase: edits save here, never to main/live. Switch to `main` to go live.
 
 # Where uploaded images go, and the path written into the data files.
 media_folder: assets
