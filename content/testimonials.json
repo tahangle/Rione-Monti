@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "name": "Pauline",
+      "date": "13 | 01 | 2025",
+      "rating": "5/5",
+      "quote": "Je recommande vivement Rione Monti !\n\nJ'ai fait appel à eux dans le cadre d'un évènement professionnel et le buffet a été très apprécié.\n\nTout ce qu'on attend d'un traiteur haut de gamme mais abordable avec livraison, timing respecté, magnifique vaisselle, discrétion, etc.\n\nMerci infiniment."
+    },
+    {
+      "name": "Katia",
+      "date": "13 | 03 | 2025",
+      "rating": "5/5",
+      "quote": "Magnifique expérience.\n\nJe recommande les prestations de chef de très grande qualité."
+    },
+    {
+      "name": "Manon",
+      "date": "27 | 11 | 2024",
+      "rating": "5/5",
+      "quote": "Les fondateurs sont incroyablement arrangeants et d'une authenticité rare, ce qui a rendu l'organisation encore plus agréable.\n\nJe n'hésiterai pas une seconde à repasser par eux pour mes prochains événements."
+    }
+  ]
+}

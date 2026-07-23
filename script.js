@@ -32,8 +32,10 @@
   // Shared text style for menu dishes (matches the design file)
   var dishStyle = "font-family:'Rauschen',sans-serif;font-weight:400;font-size:clamp(15px,1.15vw,18px);letter-spacing:0.07em;color:#1E194E;text-transform:uppercase;";
 
-  // The menu, by category
-  var cats = [
+  // The menu, by category.
+  // If the CMS bridge has supplied categories (window.RM_CATS), use those;
+  // otherwise fall back to this built-in list so the site works on its own.
+  var cats = (window.RM_CATS && window.RM_CATS.length) ? window.RM_CATS : [
     ['Antipasti', ['Supplì', 'Focacce farcite', 'Parmigiana di melanzane', 'Tramezzini', 'Cicchetti veneziani', 'Bruschette']],
     ['Pasta', ['Lasagna', 'Pasta al pomodoro', 'Norma', 'Carbonara', 'Cacio e pepe', 'Pesto', 'Gorgonzola e speck', 'Bolognese', 'Amatriciana', 'Gnocchi alla sorrentina']],
     ['Pizza', ['Margherita', 'Marinara', 'Patate e rosmarino', 'Funghi e salsiccia', 'Burrata e prosciutto crudo', 'Stracciatella, mortadella e pistacchio', 'Zucchine', 'Melanzane']],

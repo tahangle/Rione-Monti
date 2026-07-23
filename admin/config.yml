@@ -1,0 +1,101 @@
+# ── Sveltia CMS configuration ────────────────────────────────────────────────
+# This file defines the editing forms the client sees. Change a `label` here and
+# the label in their admin panel changes. Add a field and a new input appears.
+
+# WHERE edits get saved. In production, Sveltia commits straight to your GitHub
+# repo. For the local prototype you won't use this — you'll click "Work with
+# Local Repository" instead, which edits the files on disk directly, no login.
+backend:
+  name: github
+  repo: tahangle/Rione-Monti   # owner/repo — change if you transfer it to the client
+  branch: main
+
+# Where uploaded images go, and the path written into the data files.
+media_folder: assets
+public_folder: assets
+
+# Each "collection" below becomes a section in the client's sidebar.
+# `widget` is the input type:
+#   string = one line   |   text = a paragraph box   |   object = a group of fields
+#   list   = a repeatable group (add / remove / drag to reorder)
+#   image  = an upload field (client picks a photo, saved into assets/)
+collections:
+  # ── 1. Homepage & contact ──────────────────────────────────────────────────
+  - name: homepage
+    label: Homepage & contact
+    files:
+      - name: site
+        label: Homepage & contact
+        file: content/site.json
+        fields:
+          - name: hero_tagline
+            label: Hero tagline
+            widget: object
+            fields:
+              - { name: fr, label: Français, widget: text }
+              - { name: en, label: English, widget: text }
+          - name: contact_intro
+            label: Contact intro paragraph
+            widget: object
+            fields:
+              - { name: fr, label: Français, widget: text }
+              - { name: en, label: English, widget: text }
+          - { name: email,     label: Email address, widget: string }
+          - { name: phone,     label: Phone (e.g. +33787212726), widget: string }
+          - { name: instagram, label: Instagram URL, widget: string }
+          - { name: facebook,  label: Facebook URL,  widget: string }
+
+  # ── 2. Menus ───────────────────────────────────────────────────────────────
+  # A list of categories; each category holds a list of dishes. The client can
+  # add a category, rename it, and add/remove/reorder dishes inside it.
+  - name: menus
+    label: Menus
+    files:
+      - name: menus
+        label: Menu categories
+        file: content/menus.json
+        fields:
+          - name: categories
+            label: Categories
+            widget: list
+            summary: "{{fields.category}}"
+            collapsed: false          # show each category open, so its dishes are visible
+            fields:
+              - { name: category, label: Category name, widget: string }
+              - name: dishes
+                label: Dishes
+                widget: list
+                collapsed: false      # show the dish list expanded too
+                field: { name: dish, label: Dish, widget: string }
+
+  # ── 3. Testimonials ────────────────────────────────────────────────────────
+  - name: testimonials
+    label: Testimonials
+    files:
+      - name: testimonials
+        label: Client reviews
+        file: content/testimonials.json
+        fields:
+          - name: items
+            label: Reviews
+            widget: list
+            summary: "{{fields.name}} — {{fields.date}}"
+            fields:
+              - { name: name,   label: Client name, widget: string }
+              - { name: date,   label: Date (e.g. 13 | 01 | 2025), widget: string }
+              - { name: rating, label: Rating text (e.g. 5/5), widget: string, default: "5/5" }
+              - { name: quote,  label: Review, widget: text, hint: "Leave a blank line between paragraphs." }
+
+  # ── 4. Gallery ─────────────────────────────────────────────────────────────
+  # A simple list of photos for the scrolling band. Each item is one upload.
+  - name: gallery
+    label: Gallery
+    files:
+      - name: gallery
+        label: Photo band
+        file: content/gallery.json
+        fields:
+          - name: images
+            label: Photos
+            widget: list
+            field: { name: image, label: Photo, widget: image }

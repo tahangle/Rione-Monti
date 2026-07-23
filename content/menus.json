@@ -1,0 +1,66 @@
+{
+  "categories": [
+    {
+      "category": "Antipasti",
+      "dishes": [
+        "Supplì",
+        "Focacce farcite",
+        "Parmigiana di melanzane",
+        "Tramezzini",
+        "Cicchetti veneziani",
+        "Bruschette"
+      ]
+    },
+    {
+      "category": "Pasta",
+      "dishes": [
+        "Lasagna",
+        "Pasta al pomodoro",
+        "Norma",
+        "Carbonara",
+        "Cacio e pepe",
+        "Pesto",
+        "Gorgonzola e speck",
+        "Bolognese",
+        "Amatriciana",
+        "Gnocchi alla sorrentina"
+      ]
+    },
+    {
+      "category": "Pizza",
+      "dishes": [
+        "Margherita",
+        "Marinara",
+        "Patate e rosmarino",
+        "Funghi e salsiccia",
+        "Burrata e prosciutto crudo",
+        "Stracciatella, mortadella e pistacchio",
+        "Zucchine",
+        "Melanzane"
+      ]
+    },
+    {
+      "category": "Drinks",
+      "dishes": [
+        "Spritz",
+        "Select",
+        "Limoncello",
+        "Fleur de sureau",
+        "Framboise",
+        "Mangue",
+        "Prosecco naturale de Valdobbiadene"
+      ]
+    },
+    {
+      "category": "Dessert",
+      "dishes": [
+        "Tiramisu",
+        "Biscuits faits maison",
+        "Sbriciolata",
+        "Mille-feuille",
+        "Cannoli siciliani",
+        "Caffe"
+      ]
+    }
+  ]
+}
