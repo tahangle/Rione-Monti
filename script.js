@@ -51,8 +51,17 @@
   document.querySelectorAll('[data-hover]').forEach(function (el) {
     var hover = el.getAttribute('data-hover');
     var base = el.getAttribute('style') || '';
-    el.addEventListener('mouseenter', function () { el.setAttribute('style', base + ';' + hover); });
-    el.addEventListener('mouseleave', function () { el.setAttribute('style', base); });
+    // Kept on the element so other code (e.g. the form's sent state) can pin
+    // the hover look in place, or hand the element back to normal hovering.
+    el.rmHoverBase = base;
+    el.addEventListener('mouseenter', function () {
+      if (el.hasAttribute('data-hover-locked')) return;
+      el.setAttribute('style', base + ';' + hover);
+    });
+    el.addEventListener('mouseleave', function () {
+      if (el.hasAttribute('data-hover-locked')) return;
+      el.setAttribute('style', base);
+    });
   });
 
   // ==========================================================================
@@ -135,20 +144,62 @@
       if (!form) return;
       var btn = form.querySelector('button[type=submit]');
       var endpoint = form.getAttribute('action') || '';
-      var done = function () {
-        if (!btn) return;
-        btn.textContent = isEnglish ? 'Message sent' : 'Message envoyé';
-        btn.style.background = '#DEA529';
-        btn.style.color = '#3A3528';
+
+      // Sending again after a previous send: release the pinned 'sent' look.
+      if (btn && btn.hasAttribute('data-hover-locked')) {
+        btn.removeAttribute('data-hover-locked');
+        if (btn.rmHoverBase != null) btn.setAttribute('style', btn.rmHoverBase);
+      }
+
+      // Where to send people if the form itself can't deliver. Read from the
+      // footer link so it follows whatever the CMS has, not a stale copy here.
+      var mailLink = document.querySelector('[data-cms-link="email"]');
+      var mailto = (mailLink && mailLink.getAttribute('href')) || 'mailto:rionemonti.catering@gmail.com';
+      var address = mailto.replace(/^mailto:/, '');
+
+      // One status line under the fields, created on first use.
+      var note = form.querySelector('[data-form-note]');
+      if (!note) {
+        note = document.createElement('p');
+        note.setAttribute('data-form-note', '');
+        note.setAttribute('role', 'status');
+        note.setAttribute('aria-live', 'polite');
+        note.style.cssText = "grid-column:1 / -1;margin:0;font-family:'TimezoneMono',monospace;" +
+          'font-size:15px;line-height:1.5;letter-spacing:0.04em;white-space:pre-line;';
+        form.appendChild(note);
+      }
+      var say = function (text, colour) {
+        note.textContent = text;
+        note.style.color = colour;
       };
+
+      var done = function () {
+        say(isEnglish ? 'Thank you — your message has been sent.\nWe will get back to you shortly.'
+                      : 'Merci — votre message a bien été envoyé.\nNous revenons vers vous très vite.', '#66593C');
+        if (!btn) return;
+        btn.disabled = false;
+        btn.textContent = isEnglish ? 'Message sent' : 'Message envoyé';
+        // Settle into the hover look — filled green, cream type — and pin it so
+        // mouseleave can't reset it back to the outline state.
+        if (btn.rmHoverBase != null) {
+          btn.setAttribute('data-hover-locked', '');
+          btn.setAttribute('style', btn.rmHoverBase + ';' + (btn.getAttribute('data-hover') || ''));
+        }
+      };
+      // Never tell someone their message was sent when it wasn't. Always hand
+      // them the address so the enquiry isn't silently lost.
       var fail = function () {
+        say((isEnglish ? 'Sorry — your message could not be sent.\nPlease write to us directly at '
+                       : "Désolé — l'envoi a échoué.\nÉcrivez-nous directement à ") + address, '#9D2D21');
         if (!btn) return;
         btn.disabled = false;
         btn.textContent = isEnglish ? 'Try again' : 'Réessayer';
       };
-      // Not yet configured with a real Formspree form id → just confirm on the button.
-      if (!endpoint || endpoint.indexOf('YOUR_FORM_ID') !== -1) { done(); return; }
-      // Real submit: POST the fields to Formspree, stay on the page.
+
+      // Misconfigured endpoint fails loudly — it must never look like a success.
+      if (!endpoint || endpoint.indexOf('YOUR_FORM_ID') !== -1) { fail(); return; }
+
+      say('', '#66593C');
       if (btn) { btn.disabled = true; btn.textContent = isEnglish ? 'Sending…' : 'Envoi…'; }
       fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
         .then(function (r) { if (r.ok) { done(); form.reset(); } else { fail(); } })

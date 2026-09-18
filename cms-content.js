@@ -34,7 +34,7 @@
   // always runs, whatever happened above.
   function startApp() {
     var s = document.createElement('script');
-    s.src = 'script.js?v=18';
+    s.src = 'script.js?v=19';
     document.body.appendChild(s);
   }
 
