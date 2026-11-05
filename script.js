@@ -202,7 +202,12 @@
       say('', '#66593C');
       if (btn) { btn.disabled = true; btn.textContent = isEnglish ? 'Sending…' : 'Envoi…'; }
       fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
-        .then(function (r) { if (r.ok) { done(); form.reset(); } else { fail(); } })
+        .then(function (r) { if (r.ok) {
+  done();
+  form.reset();
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({event: 'contact_form_success'});
+} else { fail(); } })
         .catch(fail);
     }
   };
